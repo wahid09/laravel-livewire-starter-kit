@@ -15,14 +15,14 @@
                with font-awesome or any other icon font library -->
                <li class="nav-item">
                 <a href="{{ route('app.dashboard') }}" class="nav-link {{ request()->is('app/dashboard') ? 'active' : '' }}">
-                  <i class="nav-icon fas fa-th"></i>
+                  <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
                   </p>
                 </a>
               </li>
 
-              <li class="nav-item has-treeview customLiClass">
+              {{-- <li class="nav-item has-treeview customLiClass">
                 <a href="#" class="nav-link">
                   <i class="nav-icon far fa-envelope"></i>
                   <p>
@@ -31,12 +31,14 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
+                  @permission('user-index')
                   <li class="nav-item">
                     <a href="{{ route('app.users') }}" class="nav-link">
                       <i class="fas fa-users nav-icon"></i>
                       <p>Users</p>
                     </a>
                   </li>
+                  @endpermission
                   <li class="nav-item">
                     <a href="pages/mailbox/compose.html" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -50,8 +52,30 @@
                     </a>
                   </li>
                 </ul>
+              </li> --}}
+              @foreach (getSidebar() as $mainMenu)
+              <li class="nav-item has-treeview {{ request()->segment(2) == $mainMenu->url ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon {{ $mainMenu->icon }}"></i>
+                  <p>
+                    {{ $mainMenu->name }}
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  @foreach($mainMenu->children as $submenu)
+                  @permission('user-index')
+                  <li class="nav-item">
+                    <a href="{{ route('app.'.$submenu->url) }}" class="nav-link {{ request()->is('app/'.$submenu->url) ? 'active' : '' }}">
+                      <i class="{{ $submenu->icon }} nav-icon"></i>
+                      <p>{{ $submenu->name }}</p>
+                    </a>
+                  </li>
+                  @endpermission
+                  @endforeach
+                </ul>
               </li>
-            
+              @endforeach
           
         </ul>
       </nav>

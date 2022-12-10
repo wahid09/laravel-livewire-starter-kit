@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Gate;
 
 class User extends Component
 {
@@ -21,11 +22,13 @@ class User extends Component
     public $searchTerm = null;
 
     public function addNew(){
+        Gate::authorize('user-create');
         $this->state = [];
         $this->showEditModal = false;
         $this->dispatchBrowserEvent('show-form');
     }
     public function createUser(){
+        Gate::authorize('user-create');
         $validatedData = Validator::make($this->state, [
             'name' => 'required|min:3',
             'email'=> 'required|email|unique:users',
@@ -39,12 +42,14 @@ class User extends Component
         return redirect()->back();
     }
     public function editUser(ModelsUser $user){
+        Gate::authorize('user-update');
         $this->showEditModal = true;
         $this->user = $user;
         $this->state = $user->toArray();
         $this->dispatchBrowserEvent('show-form');
     }
     public function updateUser(){
+        Gate::authorize('user-update');
         $validatedData = Validator::make($this->state, [
             'name' => 'required|min:3',
             'email'=> 'required|email|unique:users,email,'.$this->user->id,
@@ -59,6 +64,7 @@ class User extends Component
         return redirect()->back();
     }
     public function deleteConfirm($id){
+        Gate::authorize('user-delete');
         $this->dispatchBrowserEvent('delete-confirm', [
             //'type' => 'warning',
             //'title' => 'Are you Sure?',
@@ -67,10 +73,12 @@ class User extends Component
         ]);
     }
     public function delete($id){
+        Gate::authorize('user-delete');
         ModelsUser::findOrFail($id)->delete();
     }
     public function render()
     {
+        Gate::authorize('user-index');
         //dd($this->searchTerm);
         $users = ModelsUser::query()
                  ->where('name', 'like', '%'.$this->searchTerm.'%')

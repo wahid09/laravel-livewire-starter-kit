@@ -28,7 +28,9 @@
             <div class="card card-primary card-outline">
                 <div class="card-header">
                 <h5 class="m-0 float-left">User Management</h5>
+                @permission('user-create')
                 <button wire:click.prevent="addNew" class="btn btn-primary float-right"><i class="fa fa-plus-circle mr-1"></i> Add New</button>
+                @endpermission
                 </div>
                 <div class="card-body">
                     <x-search-input wire:model="searchTerm" />

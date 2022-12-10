@@ -57,6 +57,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
+    'placeholder' => 'https://via.placeholder.com/',
 
     /*
     |--------------------------------------------------------------------------
@@ -185,7 +186,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        App\Providers\FortifyServiceProvider::class,
+        browner12\helpers\HelperServiceProvider::class,
         /*
          * Application Service Providers...
          */
