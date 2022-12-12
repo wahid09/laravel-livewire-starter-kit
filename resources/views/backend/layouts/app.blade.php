@@ -9,10 +9,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <livewire:styles />
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/plugins/toastr/toastr.min.css') }}">
-  <livewire:styles />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   @stack('css')
 
 </head>
@@ -57,6 +60,9 @@
 <script src="{{ asset('backend/plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
 <script>
@@ -74,9 +80,11 @@
         window.addEventListener('toastr-error', event =>{
             toastr.error(event.detail.message, 'Error');
         });
+
     });
     window.addEventListener('show-form', event =>{
         $('#form').modal('show');
+        //$('.roleselect').select2();
     });
     window.addEventListener('hide-form', event =>{
         $('#form').modal('hide');
@@ -107,24 +115,8 @@
         })
     });
 </script>
+
 <livewire:scripts />
-<script>
-    $(document).ready(function(){
-
-    var url = window.location.href;
-    var encodedString = btoa(url);
-    encodedString=encodedString.replace("==","");
-    encodedString=encodedString.replace("=","");
-
-    //alert(encodedString);
-    $activeUrl=$("#"+encodedString);
-    //alert($activeUrl)
-    $activeUrl.addClass("active");
-
-    $activeLi=$activeUrl.parents("li.customLiClass:first");
-    $activeLi.addClass("menu-open");
-    });
-</script>
 @stack('js')
 </body>
 </html>

@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Models\User as ModelsUser;
+use App\Models\Role;
 use Livewire\Component;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Livewire\WithPagination;
+use App\Models\User as ModelsUser;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class User extends Component
 {
@@ -18,8 +19,22 @@ class User extends Component
     public $state=[];
     public $showEditModal = false;
     public $user;
-    protected $listeners = ['delete'];
+    public $role;
+    protected $listeners = [
+        'delete'
+    ];
     public $searchTerm = null;
+
+    public $selected = '';
+
+    // public $series = [
+    //     'Wanda Vision',
+    //     'Money Heist',
+    //     'Lucifer',
+    //     'Stranger Things',
+    // ];
+
+    
 
     public function addNew(){
         Gate::authorize('user-create');
@@ -85,7 +100,8 @@ class User extends Component
                  ->where('email', 'like', '%'.$this->searchTerm.'%')
                  ->latest()->paginate(10);
         return view('livewire.backend.user', [
-            'users' => $users
+            'users' => $users,
+            'roles' => Role::active()->latest()->get(),
         ]);
     }
 }

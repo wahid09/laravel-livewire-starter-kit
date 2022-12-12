@@ -99,6 +99,28 @@
             <form autocomplete="off" wire:submit.prevent="{{ $showEditModal ? 'updateUser' : 'createUser' }}">
             <div class="modal-body">
                     <div class="card-body">
+                        {{-- <x:select-list wire:model="test" id="test" name="test" :messages="$tests" select-type="label"/> --}}
+                        <div class="form-group">
+                            <label>Minimal</label>
+                            {{-- <input id="role" type="hidden" wire:model.lazy="state.role"/> --}}
+                            <div wire:ignore>
+                            <select data-livewire="@this" class="form-control roleselect" style="width: 100%;" wire:model.lazy="state.role" {{ $selected }}>
+                              <option></option>
+                              @foreach($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                               @endforeach
+                            </select>
+                            </div>
+                        </div>
+                        {{-- <div class="col d-flex display-inline-block">
+                            <label>Device</label>
+                            <select {{ $customer ? '' : 'disabled' }} wire:model="selectedItem" class="form-control contact_devices_multiple" data-placeholder="Select" style="width: 100%;">
+                              @foreach($devices as $device)
+                                 <option value="{{ $device }}">{{ $device }}</option>
+                              @endforeach
+                            </select>
+                          </div> --}}
+                        
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter your name" wire:model.defer="state.name" value="{{ $user->name ?? old('name') }}">
@@ -153,3 +175,40 @@
         </div>
       </div>
 </div>
+@push('js')
+<script>
+    $(document).ready(function() {
+        $('.roleselect').select2({
+            dropdownParent: $("#form"),
+            placeholder: '{{__('Select your option')}}',
+            allowClear: true
+        });
+        $('.roleselect').on('change', function (e) {
+            let elementName = $(this).attr('id');
+            var data = $(this).select2("val");
+            @this.set(elementName, data);
+            //let livewire = $(this).data('livewire')
+            //eval(livewire).set('role', $(this).val());
+        });
+    });
+</script>
+{{-- <script>
+$(document).ready(function() {
+    $('.roleselect').select2({
+        dropdownParent: $("#form"),
+    });
+    $('.roleselect').on('change', function (e) {
+        var data = $('.roleselect').select2("val");
+        @this.set('selected', data);
+    });
+});
+</script> --}}
+{{-- <script>
+document.addEventListener('livewire:load', function (){
+    $('.roleselect').on('change', function (e) {
+    var data = $('.roleselect').select2("val");
+    @this.set('selected', data);
+});
+});
+</script> --}}
+@endpush
