@@ -25,7 +25,7 @@ class User extends Component
     ];
     public $searchTerm = null;
 
-    public $selected = '';
+    //public $role_id = '';
 
     // public $series = [
     //     'Wanda Vision',
@@ -45,6 +45,7 @@ class User extends Component
     public function createUser(){
         Gate::authorize('user-create');
         $validatedData = Validator::make($this->state, [
+            'role_id' => 'required',
             'name' => 'required|min:3',
             'email'=> 'required|email|unique:users',
             'password'=> 'required|confirmed|min:8'
@@ -66,6 +67,7 @@ class User extends Component
     public function updateUser(){
         Gate::authorize('user-update');
         $validatedData = Validator::make($this->state, [
+            'role_id' => 'required',
             'name' => 'required|min:3',
             'email'=> 'required|email|unique:users,email,'.$this->user->id,
             'password'=> 'sometimes|confirmed|min:8'
@@ -95,7 +97,7 @@ class User extends Component
     {
         Gate::authorize('user-index');
         //dd($this->searchTerm);
-        $users = ModelsUser::query()
+        $users = ModelsUser::with('role')
                  ->where('name', 'like', '%'.$this->searchTerm.'%')
                  ->where('email', 'like', '%'.$this->searchTerm.'%')
                  ->latest()->paginate(10);

@@ -39,6 +39,7 @@
                           <tr>
                             <th style="width: 10px">#</th>
                             <th>Nmae</th>
+                            <th>Role</th>
                             <th>Email</th>
                             <th>Created_at</th>
                             <th>Action</th>
@@ -49,10 +50,11 @@
                             <tr>
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $user->name }}</td>
+                                <td>{{ $user->role->name }}</td>
                                 <td>
                                   {{ $user->email }}
                                 </td>
-                                <td>{{ $user->created_at }}</span></td>
+                                <td>{{ $user->created_at->diffForHumans() }}</span></td>
                                 <td>
                                     <a href="" wire:click.prevent="editUser({{ $user }})">
                                         <i class="fa fa-edit mr-1"></i>
@@ -99,27 +101,21 @@
             <form autocomplete="off" wire:submit.prevent="{{ $showEditModal ? 'updateUser' : 'createUser' }}">
             <div class="modal-body">
                     <div class="card-body">
-                        {{-- <x:select-list wire:model="test" id="test" name="test" :messages="$tests" select-type="label"/> --}}
+                        
                         <div class="form-group">
-                            <label>Minimal</label>
-                            {{-- <input id="role" type="hidden" wire:model.lazy="state.role"/> --}}
-                            <div wire:ignore>
-                            <select data-livewire="@this" class="form-control roleselect" style="width: 100%;" wire:model.lazy="state.role" {{ $selected }}>
-                              <option></option>
-                              @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                               @endforeach
-                            </select>
-                            </div>
+                            <label>Role</label>
+                              <select class="form-control @error('role_id') is-invalid @enderror roleselect " style="width: 100%;" wire:model.defer="state.role_id">
+                                <option></option>
+                                @foreach($roles as $role)
+                                  <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                              </select>
+                            @error('role_id')
+                                <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-                        {{-- <div class="col d-flex display-inline-block">
-                            <label>Device</label>
-                            <select {{ $customer ? '' : 'disabled' }} wire:model="selectedItem" class="form-control contact_devices_multiple" data-placeholder="Select" style="width: 100%;">
-                              @foreach($devices as $device)
-                                 <option value="{{ $device }}">{{ $device }}</option>
-                              @endforeach
-                            </select>
-                          </div> --}}
                         
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -177,38 +173,15 @@
 </div>
 @push('js')
 <script>
-    $(document).ready(function() {
-        $('.roleselect').select2({
-            dropdownParent: $("#form"),
-            placeholder: '{{__('Select your option')}}',
-            allowClear: true
-        });
-        $('.roleselect').on('change', function (e) {
-            let elementName = $(this).attr('id');
-            var data = $(this).select2("val");
-            @this.set(elementName, data);
-            //let livewire = $(this).data('livewire')
-            //eval(livewire).set('role', $(this).val());
-        });
-    });
+// $(document).ready(function() {
+//     $('.roleselect').select2({
+//         dropdownParent: $("#form"),
+//     });
+//     $('.roleselect').on('change', function (e) {
+//         var data = $('.roleselect').select2("val");
+//         @this.set('role_id', data);
+//     });
+// });
 </script>
-{{-- <script>
-$(document).ready(function() {
-    $('.roleselect').select2({
-        dropdownParent: $("#form"),
-    });
-    $('.roleselect').on('change', function (e) {
-        var data = $('.roleselect').select2("val");
-        @this.set('selected', data);
-    });
-});
-</script> --}}
-{{-- <script>
-document.addEventListener('livewire:load', function (){
-    $('.roleselect').on('change', function (e) {
-    var data = $('.roleselect').select2("val");
-    @this.set('selected', data);
-});
-});
-</script> --}}
+
 @endpush
