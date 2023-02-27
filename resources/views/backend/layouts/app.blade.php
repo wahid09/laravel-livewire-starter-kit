@@ -27,7 +27,8 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  @include('backend.layouts.partials.sidebar')
+  {{-- @include('backend.layouts.partials.sidebar') --}}
+  <x-partials.sidebar />
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -40,14 +41,7 @@
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+  <x-partials.footer />
 </div>
 <!-- ./wrapper -->
 
