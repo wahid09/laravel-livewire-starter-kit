@@ -1,5 +1,8 @@
 <x-admin-layouts>
 <div>
+    @section('title')
+        Dashboard
+    @endsection
 <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">

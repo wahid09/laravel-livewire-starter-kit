@@ -17,9 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        //$roles = Role::all();
         User::updateOrCreate([
             'role_id' => Role::where('slug', 'super-admin')->first()->id,
-            'name' => 'Super Admin',
+            'username' => 'superadmin',
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('password'),
             'status' => true
@@ -27,7 +30,9 @@ class UserSeeder extends Seeder
 
         User::updateOrCreate([
             'role_id' => Role::where('slug', 'staff')->first()->id,
-            'name' => 'User',
+            'username' => 'user',
+            'first_name' => 'User',
+            'last_name' => 'Admin',
             'email' => 'user@user.com',
             'password' => Hash::make('password'),
             'status' => true

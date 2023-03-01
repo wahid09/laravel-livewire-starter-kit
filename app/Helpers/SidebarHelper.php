@@ -12,6 +12,9 @@ if (!function_exists('getSidebar')) {
      */
     function getSidebar()
     {
-        return Module::with('children')->where('parent_id', 0)->get();
+        return Module::active()->with('children')
+            ->where('parent_id', 0)
+            ->orderBy('sort_order', 'asc')
+            ->get();
     }
 }

@@ -1,24 +1,30 @@
-<div wire:ignore class="w-full">
-    <select class="form-select select2" data-minimum-results-for-search="Infinity" data-placeholder="{{__('Select your option')}}" {{ $attributes }}>
-        <option></option>
-            @foreach($messages as $key => $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-            @endforeach
+<div
+    x-data="{
+        model: @entangle($attributes->wire('model')),
+    }"
+    x-init="
+        select2 = $($refs.select)
+            .not('.select2-hidden-accessible')
+            .select2({
+                theme: 'bootstrap',
+                dropdownAutoWidth: true,
+                width: '100%',
+                minimumResultsForSearch: 10,
+            });
+        select2.on('select2:select', (event) => {
+            model = Array.from(event.target.options).filter(option => option.selected).map(option => option.value);
+            if (event.target.hasAttribute('multiple')) { model = Array.from(event.target.options).filter(option => option.selected).map(option => option.value); } else { model = event.params.data.id }
+        });
+        select2.on('select2:unselect', (event) => {
+            model = Array.from(event.target.options).filter(option => option.selected).map(option => option.value);
+        });
+        $watch('model', (value) => {
+            select2.val(value).trigger('change');
+        });
+    "
+    wire:ignore
+>
+    <select x-ref="select" {{ $attributes->merge(['class' => 'form-control']) }} style="100%">
+        {{ $slot }}
     </select>
 </div>
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: '{{__('Select your option')}}',
-                allowClear: true
-            });
-            $('.select2').on('change', function (e) {
-                let elementName = $(this).attr('id');
-                var data = $(this).select2("val");
-                @this.set(elementName, data);
-            });
-        });
-    </script>
-@endpush

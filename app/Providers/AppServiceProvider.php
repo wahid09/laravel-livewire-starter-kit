@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('permission', function ($permission) {
+            //dd($permission);
             return Auth::user()->hasPermission($permission);
         });
     }
