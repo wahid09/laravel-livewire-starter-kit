@@ -37,7 +37,7 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->logOnly(['username', 'first_name', 'last_name', 'email'])
-            ->setDescriptionForEvent(fn(string $eventName) => "User model has been {$eventName}")
+            ->setDescriptionForEvent(fn (string $eventName) => "User model has been {$eventName}")
             ->useLogName('User');
         // Chain fluent methods for configuration options
     }
@@ -78,16 +78,6 @@ class User extends Authenticatable
         //return $this->belongsToMany(Role::class);
     }
 
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
-    }
-
-    public function rank()
-    {
-        return $this->belongsTo(Rank::class);
-    }
-
     public function hasPermission($permission): bool
     {
         //dd($this->roles());
@@ -117,5 +107,4 @@ class User extends Authenticatable
     {
         return ucwords("{$this->first_name} {$this->last_name}");
     }
-
 }

@@ -65,14 +65,14 @@ class UserProfileUpdate extends Component
             $attributes = Arr::only($this->state, ['current_password', 'password', 'password_confirmation'])
         );
 
-        collect($attributes)->map(fn($value, $key) => $this->state[$key] = '');
+        collect($attributes)->map(fn ($value, $key) => $this->state[$key] = '');
 
         $this->dispatchBrowserEvent('toastr-success', ['message' => 'Password changed successfully!']);
     }
 
     public function render()
     {
-        $user = User::with('role', 'unit', 'rank')->findOrFail($this->user->id);
+        $user = User::with('role')->findOrFail($this->user->id);
         //dd(auth()->user()->avatar_url);
         return view('livewire.backend.user.user-profile-update', [
             'user' => $user
