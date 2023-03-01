@@ -70,12 +70,8 @@ class EditUserComponent extends Component
     {
         Gate::authorize('user-update');
         $roles = Role::active()->latest()->get();
-        $units = Unit::active()->latest()->get();
-        $ranks = Rank::active()->latest()->get();
         return view('livewire.backend.user.edit-user-component', [
-            'roles' => $roles,
-            'units' => $units,
-            'ranks' => $ranks
+            'roles' => $roles
         ]);
     }
 }

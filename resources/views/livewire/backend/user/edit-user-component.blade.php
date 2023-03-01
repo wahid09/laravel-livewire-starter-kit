@@ -123,40 +123,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div wire:ignore class="form-group">
-                                                    <label for="role_id">Unit *</label>
-                                                    <select class="form-control @error('unit_id') is-invalid @enderror"
-                                                            id="unit" wire:model="state.unit_id" style="width: 100%">
-                                                        <option value=""></option>
-                                                        @foreach($units as $item)
-                                                            <option
-                                                                value="{{ $item->id }}">{{ $item->unit_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('unit_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
-                                                <div wire:ignore class="form-group">
-                                                    <label for="role_id">Rank *</label>
-                                                    <select class="form-control @error('rank_id') is-invalid @enderror"
-                                                            id="rank" wire:model="state.rank_id" style="width: 100%">
-                                                        <option value=""></option>
-                                                        @foreach($ranks as $item)
-                                                            <option
-                                                                value="{{ $item->id }}">{{ $item->rank_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('rank_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-
-                                                </div>
                                                 <div class="form-group">
                                                     <label for="confirm_password">Retype Password *</label>
                                                     <input type="password"
