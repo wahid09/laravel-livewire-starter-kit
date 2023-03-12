@@ -14,10 +14,34 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
+    // protected $listen = [
+    //     Registered::class => [
+    //         SendEmailVerificationNotification::class,
+    //     ],
+    // ];
+    /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        \Illuminate\Auth\Events\Login::class => [
+
+            \App\Listeners\LogActivity::class.'@login',
         ],
+        \Illuminate\Auth\Events\Logout::class => [
+            \App\Listeners\LogActivity::class.'@logout',
+        ],
+        \Illuminate\Auth\Events\Registered::class => [
+            \Illuminate\Auth\Listeners\SendEmailVerificationNotification::class,
+            \App\Listeners\LogActivity::class.'@registered',
+        ],
+        \Illuminate\Auth\Events\Failed::class => [
+            \App\Listeners\LogActivity::class.'@failed',
+        ],
+        \Illuminate\Auth\Events\PasswordReset::class => [
+            \App\Listeners\LogActivity::class.'@passwordReset',
+        ]
     ];
 
     /**
